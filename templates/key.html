@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+</head>
+
+<body class="bg-white text-gray-800">
+
+<!-- Particle Background -->
+
+<div id="particles-js" class="fixed inset-0 -z-10"></div>
+
+<!-- Login Card -->
+
+<div class="flex items-center justify-center h-screen">
+
+<div class="backdrop-blur-xl bg-white/60 border border-gray-200 rounded-2xl shadow-xl p-10 w-96">
+
+<h1 class="text-3xl font-bold mb-6 text-center">
+Access Portal
+</h1>
+
+<p class="text-center text-gray-500 mb-6">
+Enter your access key to continue
+</p>
+
+<form method="POST">
+
+<input
+name="key"
+placeholder="Enter Access Key"
+class="w-full p-3 rounded-lg border border-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+<button
+class="w-full bg-indigo-500 hover:bg-indigo-600 text-white p-3 rounded-lg transition">
+Verify
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script>
+
+window.addEventListener("load", () => {
+
+tsParticles.load("particles-js", {
+
+background: {
+color: "#ffffff"
+},
+
+particles: {
+
+number: { value: 80 },
+
+color: { value: "#6366f1" },
+
+links: {
+enable: true,
+distance: 150,
+color: "#6366f1",
+opacity: 0.3
+},
+
+move: {
+enable: true,
+speed: 1.2
+},
+
+size: {
+value: 2
+}
+
+}
+
+})
+
+})
+
+</script>
+
+</body>
+
+</html>

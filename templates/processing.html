@@ -1,0 +1,130 @@
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<div class="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+
+<!-- Loader -->
+<div id="loader" class="flex flex-col items-center w-full max-w-md">
+
+<h1 class="text-3xl font-bold mb-8">
+Processing Request
+</h1>
+
+<!-- Liquid progress bar -->
+
+<div class="w-full bg-white/20 rounded-full h-4 overflow-hidden">
+
+<div id="progressBar"
+class="h-4 bg-white rounded-full transition-all duration-700"
+style="width:10%">
+</div>
+
+</div>
+
+<p class="mt-6 text-white/80 animate-pulse">
+Preparing secure request...
+</p>
+
+</div>
+
+
+<!-- Result Screen -->
+
+<div id="result" class="hidden flex flex-col items-center">
+
+<div id="icon" class="text-8xl mb-6"></div>
+
+<h1 id="message" class="text-4xl font-bold mb-2"></h1>
+
+<p id="subtext" class="text-white/80"></p>
+
+</div>
+
+</div>
+
+<script>
+
+const requestId = "{{ request_id }}"
+
+let progress = 10
+
+const progressBar = document.getElementById("progressBar")
+
+function fakeProgress(){
+
+progress += Math.random()*10
+
+if(progress < 90){
+progressBar.style.width = progress + "%"
+}
+
+}
+
+setInterval(fakeProgress,1200)
+
+
+async function checkStatus(){
+
+const res = await fetch(`/status/${requestId}`)
+const data = await res.json()
+
+if(data.status !== "Pending"){
+
+progressBar.style.width = "100%"
+
+setTimeout(()=>{
+
+document.getElementById("loader").style.display="none"
+
+const result = document.getElementById("result")
+result.classList.remove("hidden")
+
+const icon = document.getElementById("icon")
+const message = document.getElementById("message")
+const subtext = document.getElementById("subtext")
+
+if(data.status === "Approved"){
+
+icon.innerHTML="✅"
+
+message.innerHTML="Request Approved"
+
+subtext.innerHTML="Your request was successfully approved."
+
+result.classList.add("animate__animated","animate__fadeInUp")
+
+confetti({
+particleCount:180,
+spread:100,
+origin:{y:0.6}
+})
+
+}
+
+else{
+
+icon.innerHTML="❌"
+
+message.innerHTML="Request Declined"
+
+subtext.innerHTML="Your request was rejected."
+
+result.classList.add("animate__animated","animate__shakeX")
+
+}
+
+},700)
+
+clearInterval(interval)
+
+}
+
+}
+
+const interval=setInterval(checkStatus,2000)
+
+</script>
